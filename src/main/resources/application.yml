@@ -1,2 +1,7 @@
+#docs at https://docs.spring.io/spring-boot/docs/3.2.1/reference/htmlsingle/#howto.webserver
 server:
-  port: 3000
+  port: 8080
+
+spring:
+  main:
+    web-application-type: servlet
