@@ -17,7 +17,7 @@ public class Main {
         return new GreetResponse("Hello");
     }
 
-    record GreetResponse(String greet){
+    record Person (String name){
 
     }
 }
