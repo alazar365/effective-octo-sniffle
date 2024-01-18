@@ -2,9 +2,7 @@ package com.alexspring;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,6 +31,21 @@ public class Main {
         return customerRepository.findAll();
     }
 
+    @PostMapping
+    public void addCustomer(@RequestBody NewCustomerRequest request){
+        Customer customer = new Customer();
+        customer.setName(request.name());
+        customer.setEmail(request.email());
+        customer.setAge(request.age());
+
+        customerRepository.save(customer);
+    }
+
+    @DeleteMapping("{customerId}")
+    public void deleteCustomer(@PathVariable("customerId") Integer id){
+        customerRepository.deleteById(id);
+    }
+
     @GetMapping("/greet")
     public GreetResponseRecord greet(){
         return new GreetResponseRecord(
@@ -44,6 +57,12 @@ public class Main {
     record Person (String name, int age, double savings){
 
     }
+
+    record NewCustomerRequest(
+            String name,
+            String email,
+            Integer age
+    ){}
 
     record GreetResponseRecord(
                 String greet,
