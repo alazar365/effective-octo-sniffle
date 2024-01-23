@@ -2,9 +2,11 @@ package com.alexspring;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootApplication
 @RestController
@@ -44,6 +46,21 @@ public class Main {
     @DeleteMapping("{customerId}")
     public void deleteCustomer(@PathVariable("customerId") Integer id){
         customerRepository.deleteById(id);
+    }
+
+    @PutMapping("{customerId}")
+    public ResponseEntity<Customer> updateCustomer(@PathVariable("customerId") Integer id, @RequestBody Customer updatedCustomer){
+
+
+        Customer customer = customerRepository.findById(id).orElseThrow(() ->
+                new IllegalStateException("student with id " + id + " does not exist"));
+        customer.setAge(updatedCustomer.getAge());
+        customer.setName(updatedCustomer.getName());
+        customer.setEmail(updatedCustomer.getEmail());
+
+        customerRepository.save(customer);
+
+        return ResponseEntity.ok(customer);
     }
 
     @GetMapping("/greet")
