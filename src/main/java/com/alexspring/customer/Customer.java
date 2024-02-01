@@ -1,4 +1,4 @@
-package com.alexspring;
+package com.alexspring.customer;
 
 import jakarta.persistence.*;
 
@@ -32,7 +32,14 @@ public class Customer {
         this.age = age;
     }
 
+    public Customer(NewCustomerRequest request) {
+        this.name = request.name();
+        this.email = request.email();
+        this.age = request.age();
+    }
+
     public Customer() {
+
     }
 
     public Integer getId() {
@@ -79,4 +86,10 @@ public class Customer {
     public int hashCode() {
         return Objects.hash(id, name, email, age);
     }
+
+    record NewCustomerRequest(
+        String name,
+        String email,
+        Integer age
+    ){}
 }
